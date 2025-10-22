@@ -63,3 +63,23 @@ It supports token generation, API authorization, and secure payment initiation u
 
 ## 🧩 Project Structure
 
+m_pesa_app/
+│
+├── lib/
+│ ├── main.dart # Main entry point of the Flutter app
+│ ├── screens/
+│ │ └── home_screen.dart # Home page UI
+│ ├── widgets/
+│ │ └── payment_button.dart # Reusable button widget
+│ └── services/
+│ └── mpesa_service.dart # Handles API calls to backend
+│
+├── mpesa_backend/
+│ ├── server.js # Node.js server for MPESA API
+│ ├── package.json # Backend dependencies and scripts
+│ └── node_modules/ # Auto-generated Node packages
+│
+├── android/ # Android-specific Flutter files
+├── ios/ # iOS-specific Flutter files
+├── pubspec.yaml # Flutter dependencies and assets
+└── README.md # Project documentation
