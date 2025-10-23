@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MpesaApp());
@@ -29,9 +31,74 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  // These controllers help us read the input values
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
+  bool isLoading = false;
+  String message = '';
+
+  Future<void> makePayment() async {
+    String phone = phoneController.text.trim();
+    String amount = amountController.text.trim();
+
+    if (phone.isEmpty || amount.isEmpty) {
+      setState(() {
+        message = "Please enter both phone number and amount.";
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+      message = '';
+    });
+
+    try {
+      // ✅ Use your computer’s LAN IP so Chrome can reach Node.js
+      var url = Uri.parse("http://30.0.0.226:5000/stkpush");
+
+      var response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"phone": phone, "amount": amount}),
+      );
+
+      // ✅ Print raw response for debugging
+      print("Raw response: ${response.body}");
+
+      dynamic data;
+
+      try {
+        // Try decoding JSON
+        data = jsonDecode(response.body);
+      } catch (e) {
+        // If backend sent HTML (e.g., "Cannot GET /stkpush"), show readable error
+        setState(() {
+          message =
+              "Backend returned non-JSON response:\n${response.body.substring(0, 100)}";
+        });
+        return;
+      }
+
+      if (response.statusCode == 200) {
+        setState(() {
+          message =
+              data['CustomerMessage'] ?? "Payment request sent successfully!";
+        });
+      } else {
+        setState(() {
+          message = "Failed: ${data['error'] ?? 'Unknown error'}";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        message = "Error: $e";
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +143,26 @@ class _PaymentPageState extends State<PaymentPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onPressed: () {
-                String phone = phoneController.text.trim();
-                String amount = amountController.text.trim();
-                print("Phone: $phone, Amount: $amount"); // just to test for now
-              },
-              child: const Text(
-                "Pay with M-Pesa",
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
+              onPressed: isLoading ? null : makePayment,
+              child: isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Text(
+                      "Pay with M-Pesa",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
             ),
+            const SizedBox(height: 20),
+            if (message.isNotEmpty)
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: message.toLowerCase().contains("success")
+                      ? Colors.green
+                      : Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
           ],
         ),
       ),
