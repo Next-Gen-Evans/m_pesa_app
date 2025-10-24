@@ -7,13 +7,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ Safaricom Daraja Sandbox credentials
-const consumerKey = "dU8cwe1Wvd13QhItzQ3mpa7y3FANkkS1kfApyMuRqV9OLy41"; // Replace with your actual consumer key
-const consumerSecret = "V7oviDvqz8l0ds1Lr2HIYko5cCeR2MpTGNCtCztzz6GIDJ4U8pVuagLznhOjGqGT"; // Replace with your actual consumer secret
+const consumerKey = "process.env.CONSUMER_KEY"; // Replace with your actual consumer key
+const consumerSecret = "process.env.CONSUMER_SECRET"; // Replace with your actual consumer secret
 const shortCode = "174379"; // Test Paybill
 const passKey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"; // Daraja test passkey
 
-// ✅ Function to get the access token
 async function getAccessToken() {
     const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
     try {
