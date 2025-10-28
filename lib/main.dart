@@ -54,7 +54,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     try {
       // ✅ Use your computer’s LAN IP so Chrome can reach Node.js
-      var url = Uri.parse("https://mpesa-backend-l4rq.onrender.com/stkpush");
+      var url = Uri.parse("http://localhost:5000/stkpush");
 
       var response = await http.post(
         url,

@@ -9,14 +9,14 @@ app.use(bodyParser.json());
 
 const consumerKey = "process.env.CONSUMER_KEY"; // Replace with your actual consumer key
 const consumerSecret = "process.env.CONSUMER_SECRET"; // Replace with your actual consumer secret
-const shortCode = "174379"; // Test Paybill
-const passKey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"; // Daraja test passkey
+const shortCode = "process.env.shortcode"; // Test Paybill
+const passKey = "process.env.passKey"; // Daraja test passkey
 
 async function getAccessToken() {
     const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
     try {
         const res = await axios.get(
-            "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+            "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
             {
                 headers: { Authorization: `Basic ${auth}` },
             }
