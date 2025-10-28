@@ -9,8 +9,8 @@ app.use(bodyParser.json());
 
 const consumerKey = "process.env.CONSUMER_KEY"; // Replace with your actual consumer key
 const consumerSecret = "process.env.CONSUMER_SECRET"; // Replace with your actual consumer secret
-const shortCode = "process.env.shortcode"; // Test Paybill
-const passKey = "process.env.passKey"; // Daraja test passkey
+const shortCode = "process.env.SHORTCODE"; // Test Paybill
+const passKey = "process.env.PASSKEY"; // Daraja test passkey
 
 async function getAccessToken() {
     const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString("base64");
