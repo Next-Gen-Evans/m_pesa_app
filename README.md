@@ -83,3 +83,16 @@ m_pesa_app/
 ├── ios/ # iOS-specific Flutter files
 ├── pubspec.yaml # Flutter dependencies and assets
 └── README.md # Project documentation
+
+# 👨‍💻 Author
+- **Evans Mutharimi Buongo**
+- **📍 Meru University of Science and Technology, Kenya 🇰🇪**
+- **💼 Developer | Innovator | Future Technologist | Software engineer**
+- **🌐 Passionate about tech that changes lives and builds a better world.**
+- **🌐Continuous learning & innovation.**
+
+If you found this helpful, give it a ⭐ on GitHub!
+
+<div align="center">
+
+### 🌟 **Thanks for Visiting!** 🌟
